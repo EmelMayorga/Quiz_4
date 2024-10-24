@@ -1,0 +1,121 @@
+python -m ensurepip --upgrade
+py -m pip install Django==5.1.2
+django-admin --version
+
+django-admin startproject
+nombre_del_proyecto
+
+pip install djangorestframework
+
+python manage.py startapp api
+
+  'rest_framework',
+  
+  DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'pruebap',  # El nombre de tu base de datos en MySQL
+        'USER': 'barry',  # Tu usuario de MySQL
+        'PASSWORD': '1234',  # La contraseña de tu usuario MySQL
+        'HOST': '127.0.0.1',  # Si estás ejecutando MySQL localmente
+        'PORT': '3306',  # El puerto por defecto de MySQL
+    }
+}
+
+
+from django.db import models
+
+class Producto(models.Model):
+    nombre = models.CharField(max_length=100)
+    descripcion = models.TextField()
+    precio = models.DecimalField(max_digits=10, decimal_places=2)
+
+    def _str_(self):
+        return self.nombre
+        
+        
+        from rest_framework import serializers
+from .models import Producto,Clientes
+
+class ProductoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Producto
+        fields = '_all_'
+        
+        
+        
+        
+        
+        
+        
+        from rest_framework import generics
+from .models import Producto,Clientes
+from .serializers import ProductoSerializer,ClienteSerializer
+
+
+# metodos productos
+
+
+class ProductoListCreate(generics.ListCreateAPIView):
+    queryset = Producto.objects.all()
+    serializer_class = ProductoSerializer
+
+
+class ProductoDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Producto.objects.all()
+    serializer_class = ProductoSerializer
+
+
+
+
+
+
+
+from django.urls import path
+from . import views
+
+urlpatterns = [
+    path('productos/', views.ProductoListCreate.as_view(), name='producto-list'),
+    path('productos/<int:pk>/', views.ProductoDetail.as_view(), name='producto-detail'),
+    path('clientes/', views.ClienteListCreate.as_view(), name='cliente-list'),
+    path('clientes/<int:pk>/', views.ClienteDetail.as_view(), name='cliente-detail'),
+]
+
+
+from django.contrib import admin
+from django.urls import path, include
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('api/', include('api.urls')),  # Ruta para la API
+]
+
+Ejecuta pip install mysqlclient 
+
+
+
+python manage.py makemigrations
+
+python manage.py migrate
+
+Y ejecuta para levantar tu servidor
+
+python manage.py runserver
+--------------------------------------------------------
+
+Vale Notas
+py --version
+py -m ensurepip --upgrade
+py -m pip install Django==5.1.2
+py -m django --version
+py -m django startproject [nombre_proyecto]
+py manage.py startapp [nombre]
+pip install  djangorestframework
+pip install mysqlclient
+py -m pip install mysqlclient //A mi solo me funciona con este
+
+py manage.py makemigrations
+py manage.py migrate
+py manage.py runserver
+
+---------------------------------------------------------------------
